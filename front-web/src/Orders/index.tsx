@@ -46,8 +46,20 @@ function Orders(){
         }
       
         saveOrder(payload).then((response) => {
-          toast.error(`Pedido enviado com sucesso! Nº ${response.data.id}`);
-          setSelectedProducts([]);
+
+          if(payload.products == null) {
+            toast.warning('Selecione PRODUTOS');
+          }
+
+           if(payload.address == null){
+            toast.warning('Selecione LOCALIZAÇÃO');
+          } 
+          
+          else if(payload.products != null && payload.address != null) {
+            toast.error(`Pedido enviado com sucesso! Nº ${response.data.id}`);
+            setSelectedProducts([]);
+          }
+          
         })
           .catch(() => {
             toast.warning('Erro ao enviar pedido');
